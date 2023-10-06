@@ -1,114 +1,122 @@
-var crsr = document.querySelector("#cursor");
-var blur = document.querySelector("#cursor-blur");
+function init() {
+    gsap.registerPlugin(ScrollTrigger);
 
-document.addEventListener("mousemove", function (dets) {
-  crsr.style.left = dets.x + "px";
-  crsr.style.top = dets.y + "px";
-  blur.style.left = dets.x - 250 + "px";
-  blur.style.top = dets.y - 250 + "px";
-});
+    const locoScroll = new LocomotiveScroll({
+        el: document.querySelector(".main"),
+        smooth: true
+    });
+    locoScroll.on("scroll", ScrollTrigger.update);
 
-var h4all = document.querySelectorAll("#nav h4");
-h4all.forEach(function (elem) {
-  elem.addEventListener("mouseenter", function () {
-    crsr.style.scale = 3;
-    crsr.style.border = "1px solid #fff";
-    crsr.style.backgroundColor = "transparent";
-  });
-  elem.addEventListener("mouseleave", function () {
-    crsr.style.scale = 1;
-    crsr.style.border = "0px solid #95C11E";
-    crsr.style.backgroundColor = "#95C11E";
-  });
-});
+    ScrollTrigger.scrollerProxy(".main", {
+        scrollTop(value) {
+            return arguments.length ? locoScroll.scrollTo(value, 0, 0) : locoScroll.scroll.instance.scroll.y;
+        }, // we don't have to define a scrollLeft because we're only scrolling vertically.
+        getBoundingClientRect() {
+            return { top: 0, left: 0, width: window.innerWidth, height: window.innerHeight };
+        },
+        pinType: document.querySelector(".main").style.transform ? "transform" : "fixed"
+    });
 
-gsap.to("#nav", {
-  backgroundColor: "#000",
-  duration: 0.5,
-  height: "110px",
-  scrollTrigger: {
-    trigger: "#nav",
-    scroller: "body",
-    // markers:true,
-    start: "top -10%",
-    end: "top -11%",
-    scrub: 1,
-  },
-});
 
-gsap.to("#main", {
-  backgroundColor: "#000",
-  scrollTrigger: {
-    trigger: "#main",
-    scroller: "body",
-    // markers: true,
-    start: "top -25%",
-    end: "top -70%",
-    scrub: 2,
-  },
-});
+    ScrollTrigger.addEventListener("refresh", () => locoScroll.update());
 
-gsap.from("#about-us img,#about-us-in", {
-  y: 90,
-  opacity: 0,
-  duration: 1,
-  scrollTrigger: {
-    trigger: "#about-us",
-    scroller: "body",
-    // markers:true,
-    start: "top 70%",
-    end: "top 65%",
-    scrub: 1,
-  },
-});
-gsap.from(".card", {
-  scale: 0.8,
-  // opacity:0,
-  duration: 1,
-  stagger: 0.1,
-  scrollTrigger: {
-    trigger: ".card",
-    scroller: "body",
-    // markers:false,
-    start: "top 70%",
-    end: "top 65%",
-    scrub: 1,
-  },
-});
-gsap.from("#colon1", {
-  y: -70,
-  x: -70,
-  scrollTrigger: {
-    trigger: "#colon1",
-    scroller: "body",
-    // markers:true,
-    start: "top 55%",
-    end: "top 45%",
-    scrub: 4,
-  },
-});
-gsap.from("#colon2", {
-  y: 70,
-  x: 70,
-  scrollTrigger: {
-    trigger: "#colon1",
-    scroller: "body",
-    // markers:true,
-    start: "top 55%",
-    end: "top 45%",
-    scrub: 4,
-  },
-});
-gsap.from("#page4 h1", {
-  y: 50,
-  scrollTrigger: {
-    trigger: "#page4 h1",
-    scroller: "body",
-    // markers:true,
-    start: "top 75%",
-    end: "top 70%",
-    scrub: 3,
-  },
-});
+    ScrollTrigger.refresh();
 
-// Thanks itna aage tak aane ke liye lekin pura code utha ke copy paste karne ki jagah khud ek baar banane ka try karna, kuch naya seekhne ko milega!
+}
+
+init()
+
+var crsr = document.querySelector(".cursor")
+var main = document.querySelector(".main")
+document.addEventListener("mousemove",function(dets){
+    crsr.style.left = dets.x + 20+"px"
+    crsr.style.top = dets.y + 20+"px"
+})
+
+gsap.from(".page1 h1,.page1 h2", {
+    y: 10,
+    rotate: 10,
+    opacity: 0,
+    delay: 0.3,
+    duration: 0.7
+})
+var tl = gsap.timeline({
+    scrollTrigger: {
+        trigger: ".page1 h1",
+        scroller: ".main",
+        // markers:true,
+        start: "top 27%",
+        end: "top 0",
+        scrub: 3
+    }
+})
+tl.to(".page1 h1", {
+    x: -100,
+}, "anim")
+tl.to(".page1 h2", {
+    x: 100
+}, "anim")
+tl.to(".page1 video", {
+    width: "90%"
+}, "anim")
+
+var tl2 = gsap.timeline({
+    scrollTrigger: {
+        trigger: ".page1 h1",
+        scroller: ".main",
+        // markers:true,
+        start: "top -115%",
+        end: "top -120%",
+        scrub: 3
+    }
+})
+tl2.to(".main", {
+    backgroundColor: "#fff",
+})
+
+var tl3 = gsap.timeline({
+    scrollTrigger: {
+        trigger: ".page1 h1",
+        scroller: ".main",
+        // markers:true,
+        start: "top -280%",
+        end: "top -300%",
+        scrub: 3
+    }
+})
+
+tl3.to(".main",{
+    backgroundColor:"#0F0D0D"
+})
+
+
+var boxes = document.querySelectorAll(".box")
+boxes.forEach(function(elem){
+    elem.addEventListener("mouseenter",function(){
+        var att = elem.getAttribute("data-image")
+        crsr.style.width = "470px"
+        crsr.style.height = "370px"
+        crsr.style.borderRadius = "0"
+        crsr.style.backgroundImage = `url(${att})`
+    })
+    elem.addEventListener("mouseleave",function(){
+        elem.style.backgroundColor = "transparent"
+        crsr.style.width = "20px"
+        crsr.style.height = "20px"
+        crsr.style.borderRadius = "50%"
+        crsr.style.backgroundImage = `none`
+    })
+})
+
+var h4 = document.querySelectorAll("#nav h4")
+var purple = document.querySelector("#purple")
+h4.forEach(function(elem){
+    elem.addEventListener("mouseenter",function(){
+        purple.style.display = "block"   
+        purple.style.opacity = "1"
+    })
+    elem.addEventListener("mouseleave",function(){
+        purple.style.display = "none"   
+        purple.style.opacity = "0"
+    })
+})
