@@ -53,43 +53,27 @@ html, body {
 }
 
 
-#nav{
-    height: 55px;
+#nav {
+    height: 130px;
     width: 100%;
     /* background-color: red; */
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 0 30px;
+    padding: 0 120px;
+    gap: 50px;
     position: fixed;
-    mix-blend-mode: difference;
-    z-index:102;
-}
-#nav img{
-    height: 27px;
-}
-#nav-part2{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-}
-
-#nav #circle{
-    height: 18px;
-    width: 18px;
-    border-radius: 50%;
-    background-color: #fff;
-}
-#nav h4{
-    font-size: 16px;
-    font-weight: 500;
+    justify-content: flex-start;
+    z-index: 999;
+  }
+  #nav img {
+    height: 4.5vw;
+  }
+  #nav h4 {
     text-transform: uppercase;
-}
-#nav h4:nth-child(1){
-    border-bottom: 1.5px solid #fff;
-}
-
+    font-weight: 500;
+    cursor: pointer;
+    font-size: 1.15vw;
+  }
 .page1 h1{
     font-size: 8vw;
     font-weight: 300;
@@ -194,6 +178,7 @@ html, body {
 }
 .page3-part1 video{
     height: 400px;
+    width: 100%;
     margin-top: 40px;
 }
 .page4{
